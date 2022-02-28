@@ -6,7 +6,7 @@
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
-			"filename": {
+			"DateDir": {
 				"type": "string"
 			}
 		},
@@ -15,12 +15,8 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": {
-					"value": "@dataset().filename",
-					"type": "Expression"
-				},
 				"folderPath": {
-					"value": "@formatDateTime(utcnow(), 'yyyy/MM/dd')",
+					"value": "@dataset().DateDir",
 					"type": "Expression"
 				},
 				"container": "source"
