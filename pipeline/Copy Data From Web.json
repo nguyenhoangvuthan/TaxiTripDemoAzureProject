@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy data1",
+				"name": "Copy NY Data",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -49,17 +49,32 @@
 				"inputs": [
 					{
 						"referenceName": "Source_Ny_Taxi",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"Filename": {
+								"value": "@pipeline().parameters.p_FileName",
+								"type": "Expression"
+							}
+						}
 					}
 				],
 				"outputs": [
 					{
 						"referenceName": "NY_Taxi",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"filename": "New_yellow_tripdata_2021-07.csv"
+						}
 					}
 				]
 			}
 		],
+		"parameters": {
+			"p_FileName": {
+				"type": "string",
+				"defaultValue": "yellow_tripdata_2021-07.csv"
+			}
+		},
 		"annotations": []
 	}
 }
