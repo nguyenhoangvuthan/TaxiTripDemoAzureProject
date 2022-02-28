@@ -21,7 +21,7 @@
 		},
 		"Web_NY_Taxi_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "https://nyc-tlc.s3.amazonaws.com/trip+data/yellow_tripdata_2021-07.csv"
+			"defaultValue": "https://nyc-tlc.s3.amazonaws.com/trip+data/"
 		}
 	},
 	"variables": {
@@ -74,32 +74,6 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/Source_Ny_Taxi')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Web_NY_Taxi",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "HttpServerLocation"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/Web_NY_Taxi')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/NY_Taxi')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -108,12 +82,24 @@
 					"referenceName": "Blob_IngestLayer",
 					"type": "LinkedServiceReference"
 				},
+				"parameters": {
+					"filename": {
+						"type": "string"
+					}
+				},
 				"annotations": [],
 				"type": "DelimitedText",
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
-						"fileName": "NY_2021.csv",
+						"fileName": {
+							"value": "@dataset().filename",
+							"type": "Expression"
+						},
+						"folderPath": {
+							"value": "@formatDateTime(utcnow(), 'yyyy/MM/dd')",
+							"type": "Expression"
+						},
 						"container": "source"
 					},
 					"columnDelimiter": ",",
@@ -128,13 +114,49 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/Source_Ny_Taxi')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Web_NY_Taxi",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"Filename": {
+						"type": "string",
+						"defaultValue": "yellow_tripdata_2021-07.csv"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "HttpServerLocation",
+						"relativeUrl": {
+							"value": "@dataset().Filename",
+							"type": "Expression"
+						}
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Web_NY_Taxi')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/Copy Data From Web')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
 					{
-						"name": "Copy data1",
+						"name": "Copy NY Data",
 						"type": "Copy",
 						"dependsOn": [],
 						"policy": {
@@ -181,14 +203,21 @@
 							{
 								"referenceName": "Source_Ny_Taxi",
 								"type": "DatasetReference",
-								"parameters": {}
+								"parameters": {
+									"Filename": {
+										"value": "@pipeline().parameters.p_FileName",
+										"type": "Expression"
+									}
+								}
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "NY_Taxi",
 								"type": "DatasetReference",
-								"parameters": {}
+								"parameters": {
+									"filename": "New_yellow_tripdata_2021-07.csv"
+								}
 							}
 						]
 					}
@@ -196,6 +225,18 @@
 				"policy": {
 					"elapsedTimeMetric": {},
 					"cancelAfter": {}
+				},
+				"parameters": {
+					"p_FileName": {
+						"type": "string",
+						"defaultValue": "yellow_tripdata_2021-07.csv"
+					}
+				},
+				"variables": {
+					"Date": {
+						"type": "String",
+						"defaultValue": "20220"
+					}
 				},
 				"annotations": []
 			},

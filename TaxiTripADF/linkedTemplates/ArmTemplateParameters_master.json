@@ -15,7 +15,7 @@
 			"value": "https://taxidatadlgen2.dfs.core.windows.net"
 		},
 		"Web_NY_Taxi_properties_typeProperties_url": {
-			"value": "https://nyc-tlc.s3.amazonaws.com/trip+data/yellow_tripdata_2021-07.csv"
+			"value": "https://nyc-tlc.s3.amazonaws.com/trip+data/"
 		},
 		"containerUri": {
 			"value": ""
