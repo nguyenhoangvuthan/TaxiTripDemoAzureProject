@@ -1,0 +1,12 @@
+{
+	"name": "ADLS_CuratedLayer",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobFS",
+		"typeProperties": {
+			"url": "https://taxidatadlgen2.dfs.core.windows.net",
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRBVEFGQUNUT1JZQDBGQjU1MzJDLUY5QTYtNDcyOS1BQTE2LUQ1NjNENjgxRkYwQ19iZGU1MzI5Yi00MGI0LTQ5NTUtYTk4ZS05ZmJlNjRkZTEyOTUiDQp9"
+		}
+	}
+}
