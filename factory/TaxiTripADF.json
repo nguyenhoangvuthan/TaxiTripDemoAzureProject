@@ -1,0 +1,9 @@
+{
+	"name": "TaxiTripADF",
+	"location": "southeastasia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "fa6022d7-1572-4619-bab9-b03d23e69edf",
+		"tenantId": "c52023da-af69-4493-a601-36b0b97d0c3a"
+	}
+}
