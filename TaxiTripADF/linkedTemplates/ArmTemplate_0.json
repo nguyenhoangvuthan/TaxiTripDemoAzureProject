@@ -83,7 +83,7 @@
 					"type": "LinkedServiceReference"
 				},
 				"parameters": {
-					"filename": {
+					"DateDir": {
 						"type": "string"
 					}
 				},
@@ -92,12 +92,8 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
-						"fileName": {
-							"value": "@dataset().filename",
-							"type": "Expression"
-						},
 						"folderPath": {
-							"value": "@formatDateTime(utcnow(), 'yyyy/MM/dd')",
+							"value": "@dataset().DateDir",
 							"type": "Expression"
 						},
 						"container": "source"
@@ -158,7 +154,14 @@
 					{
 						"name": "Copy NY Data",
 						"type": "Copy",
-						"dependsOn": [],
+						"dependsOn": [
+							{
+								"activity": "Set variable1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
 						"policy": {
 							"timeout": "7.00:00:00",
 							"retry": 0,
@@ -216,10 +219,26 @@
 								"referenceName": "NY_Taxi",
 								"type": "DatasetReference",
 								"parameters": {
-									"filename": "New_yellow_tripdata_2021-07.csv"
+									"DateDir": {
+										"value": "@variables('Date')",
+										"type": "Expression"
+									}
 								}
 							}
 						]
+					},
+					{
+						"name": "Set variable1",
+						"type": "SetVariable",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"variableName": "Date",
+							"value": {
+								"value": "@formatDateTime(utcnow(), 'ddMMyyyy')",
+								"type": "Expression"
+							}
+						}
 					}
 				],
 				"policy": {
@@ -235,7 +254,7 @@
 				"variables": {
 					"Date": {
 						"type": "String",
-						"defaultValue": "20220"
+						"defaultValue": "20220228"
 					}
 				},
 				"annotations": []
