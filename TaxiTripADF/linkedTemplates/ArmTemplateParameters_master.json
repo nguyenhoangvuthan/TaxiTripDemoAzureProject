@@ -1,0 +1,27 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "TaxiTripADF"
+		},
+		"ADLS_CuratedLayer_accountKey": {
+			"value": ""
+		},
+		"Blob_IngestLayer_connectionString": {
+			"value": ""
+		},
+		"ADLS_CuratedLayer_properties_typeProperties_url": {
+			"value": "https://taxidatadlgen2.dfs.core.windows.net"
+		},
+		"Web_NY_Taxi_properties_typeProperties_url": {
+			"value": "https://nyc-tlc.s3.amazonaws.com/trip+data/yellow_tripdata_2021-07.csv"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
